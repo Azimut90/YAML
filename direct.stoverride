@@ -1,5 +1,6 @@
 name: Access Directly
 desc: Send selected domains and IP addresses directly
+
 mode: rule
 
 dns:
@@ -14,6 +15,6 @@ rules:
   # Apple services directly.
   - GEOSITE,apple,DIRECT
 
-  # Russian domains/services/IPs directly.
+  # Russian domains/services and Russian IPs directly.
   - GEOSITE,category-ru,DIRECT
   - GEOIP,RU,DIRECT
