@@ -1,9 +1,21 @@
-name: RU Direct
-desc: Send Russian domains and Russian IP addresses directly
+name: Access Directly
+desc: Send selected domains and IP addresses directly
+
+mode: rule
+
+dns:
+  default-nameserver: #!replace
+    - 94.140.14.14
+    - 94.140.15.15
+
+  nameserver: #!replace
+    - https://dns.adguard-dns.com/dns-query
 
 rules:
-  - DOMAIN-SUFFIX,ru,DIRECT
-  - DOMAIN-SUFFIX,su,DIRECT
-  - DOMAIN-SUFFIX,moscow,DIRECT
-  - DOMAIN-SUFFIX,xn--p1ai,DIRECT
+  # Apple services directly.
+  - GEOSITE,apple,DIRECT
+
+  # Russian domains/services and Russian IPs directly.
+  - GEOSITE,category-ru,DIRECT
   - GEOIP,RU,DIRECT
+
