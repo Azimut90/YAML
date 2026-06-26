@@ -14,7 +14,6 @@ rules:
   # Apple services directly.
   - GEOSITE,apple,DIRECT
 
-  # Russian domains/services and Russian IPs directly.
+  # Russian domains/services/IPs directly.
   - GEOSITE,category-ru,DIRECT
   - GEOIP,RU,DIRECT
-
