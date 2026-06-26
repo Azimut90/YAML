@@ -1,6 +1,5 @@
 name: Access Directly
 desc: Send selected domains and IP addresses directly
-
 mode: rule
 
 dns:
