@@ -18,3 +18,11 @@ rules:
   # Russian domains/services/IPs directly.
   - GEOSITE,category-ru,DIRECT
   - GEOIP,RU,DIRECT
+
+  # Belarus domains and IPs directly.
+  - DOMAIN-SUFFIX,by,DIRECT
+  - GEOIP,BY,DIRECT
+
+  # Kyrgyzstan domains and IPs directly.
+  - DOMAIN-SUFFIX,kg,DIRECT
+  - GEOIP,KG,DIRECT
