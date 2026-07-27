@@ -1,5 +1,5 @@
 name: Access Directly
-desc: Send selected domains and IP addresses directly
+desc: Apple/RU/BY/KG direct, Pandora via US nodes, AdGuard DoH
 
 mode: rule
 
@@ -10,6 +10,16 @@ dns:
 
   nameserver: #!replace
     - https://dns.adguard-dns.com/dns-query
+
+proxy-groups:
+  - name: US nodes
+    type: url-test
+    include-all: true
+    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
+
+  - name: Selected node
+    type: select
+    include-all: true
 
 rules:
   # Apple services directly.
@@ -26,3 +36,14 @@ rules:
   # Kyrgyzstan domains and IPs directly.
   - DOMAIN-SUFFIX,kg,DIRECT
   - GEOIP,KG,DIRECT
+
+  # Pandora Radio through US proxy nodes.
+  - DOMAIN-SUFFIX,pandora.com,US nodes
+  - DOMAIN-SUFFIX,p-cdn.us,US nodes
+  - DOMAIN-SUFFIX,p-cdn.com,US nodes
+
+  # Check selected US exit node.
+  - DOMAIN-SUFFIX,ifconfig.net,US nodes
+
+  # Default exit
+  - MATCH,Selected node
