@@ -17,10 +17,6 @@ proxy-groups:
     include-all: true
     filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
 
-  - name: Selected node
-    type: select
-    include-all: true
-
 rules:
   # Apple services directly.
   - GEOSITE,apple,DIRECT
@@ -44,6 +40,3 @@ rules:
 
   # Check automatically selected US exit node.
   - DOMAIN-SUFFIX,ifconfig.net,US nodes
-
-  # Default exit
-  - MATCH,Selected node
