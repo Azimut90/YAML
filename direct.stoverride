@@ -1,4 +1,4 @@
-name: Access Directly
+name: Overriding Routing Rules
 desc: Apple/RU/BY/KG direct, Pandora via US nodes, AdGuard DoH
 
 mode: rule
