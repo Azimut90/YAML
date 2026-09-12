@@ -15,7 +15,15 @@ proxy-groups:
   - name: US nodes
     type: url-test
     include-all: true
+    proxies:
+      - REJECT
     filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
+
+  - name: Pandora route
+    type: fallback
+    proxies:
+      - US nodes
+      - → Remnawave
 
 rules:
   # Apple services directly.
@@ -34,9 +42,9 @@ rules:
   - GEOIP,KG,DIRECT
 
   # Pandora Radio through US proxy nodes.
-  - DOMAIN-SUFFIX,pandora.com,US nodes
-  - DOMAIN-SUFFIX,p-cdn.us,US nodes
-  - DOMAIN-SUFFIX,p-cdn.com,US nodes
+  - DOMAIN-SUFFIX,pandora.com,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
 
   # Check automatically selected US exit node.
-  - DOMAIN-SUFFIX,ifconfig.net,US nodes
+  - DOMAIN-SUFFIX,ifconfig.net,Pandora route
