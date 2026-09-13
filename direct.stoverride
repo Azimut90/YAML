@@ -15,11 +15,10 @@ proxy-groups:
   - name: US nodes
     type: url-test
     include-all: true
-    empty-fallback: REJECT
     filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
 
   - name: Pandora route
-    type: fallback
+    type: select
     proxies:
       - US nodes
       - → Remnawave
