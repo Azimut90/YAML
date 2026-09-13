@@ -15,9 +15,8 @@ proxy-groups:
   - name: US nodes
     type: url-test
     include-all: true
-    proxies:
-      - → Remnawave
-    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia|Remnawave)'
+    empty-fallback: "→ Remnawave"
+    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
 
   - name: Pandora route
     type: fallback
