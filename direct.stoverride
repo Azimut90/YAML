@@ -43,6 +43,9 @@ rules:
   - DOMAIN-SUFFIX,pandora.com,Pandora route
   - DOMAIN-SUFFIX,p-cdn.us,Pandora route
   - DOMAIN-SUFFIX,p-cdn.com,Pandora route
+  - DOMAIN-SUFFIX,savagebeast.com,Pandora route
+  - DOMAIN-SUFFIX,mountain.siriusxm.com,Pandora route
+  - DOMAIN,pandora-ios.client-config.siriusxm.com,Pandora route
 
   # Check automatically selected US exit node.
   - DOMAIN-SUFFIX,ifconfig.net,Pandora route
