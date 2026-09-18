@@ -24,6 +24,9 @@ proxy-groups:
       - → Remnawave
 
 rules:
+  # Ads and common tracking domains.
+  - GEOSITE,category-ads-all,REJECT,no-track
+
   # Apple services directly.
   - GEOSITE,apple,DIRECT
 
