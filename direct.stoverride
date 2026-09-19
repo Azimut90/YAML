@@ -1,5 +1,5 @@
 name: Routing & Privacy Overrides
-desc: Direct routes for trusted regions, Pandora routing, AdGuard DoH, and privacy filtering
+desc: Apple/RU/BY/KG direct, Pandora via selected route, AdGuard DoH, ads/trackers filtering
 
 mode: rule
 
@@ -35,7 +35,7 @@ rules:
   # Ads, trackers, telemetry, metrics, and common threats.
   - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
-# Pandora and related services.
+  # Pandora and related services.
   - DOMAIN-SUFFIX,pandora.com,Pandora route
   - DOMAIN-SUFFIX,p-cdn.us,Pandora route
   - DOMAIN-SUFFIX,p-cdn.com,Pandora route
