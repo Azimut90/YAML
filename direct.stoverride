@@ -54,5 +54,5 @@ rules:
   - DOMAIN-SUFFIX,kg,DIRECT
   - GEOIP,KG,DIRECT
 
-  # Check automatically selected US exit node.
+  # Check selected Pandora exit node.
   - DOMAIN-SUFFIX,ifconfig.net,US nodes
