@@ -27,16 +27,16 @@ proxy-groups:
       - US nodes
 
 rule-providers:
-  hagezi-pro-mini:
+  hagezi-pro-plus-mini:
     behavior: domain
     format: text
-    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro.mini.txt
-    path: ./rules/hagezi-pro-mini.txt
+    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro.plus.mini.txt
+    path: ./rules/hagezi-pro-plus-mini.txt
     interval: 86400
 
 rules:
   # Ads, trackers, telemetry, metrics, and common threats.
-  - RULE-SET,hagezi-pro-mini,REJECT,no-track
+  - RULE-SET,hagezi-pro-plus-mini,REJECT,no-track
 
   # Apple services directly.
   - GEOSITE,apple,DIRECT
