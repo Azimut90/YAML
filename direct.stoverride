@@ -23,7 +23,7 @@ proxy-groups:
   - name: Pandora route
     type: select
     proxies:
-      - → Remnawave
+      - "→ Remnawave"
       - US nodes
 
 rule-providers:
