@@ -32,10 +32,13 @@ rule-providers:
     interval: 86400
 
 rules:
-  # Pandora auxiliary Airship services.
-  - DOMAIN,combine.urbanairship.com,Pandora route
-  - DOMAIN,device-api.urbanairship.com,Pandora route
-  - DOMAIN,remote-data.urbanairship.com,Pandora route
+  # Pandora Radio through US proxy nodes.
+  - DOMAIN-SUFFIX,pandora.com,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
+  - DOMAIN-SUFFIX,siriusxm.com,Pandora route
+  - DOMAIN-SUFFIX,savagebeast.com,Pandora route
+  - DOMAIN-SUFFIX,urbanairship.com,Pandora route
 
   # Ads, trackers, telemetry, metrics, and common threats.
   - RULE-SET,hagezi-pro-mini,REJECT,no-track
@@ -54,14 +57,6 @@ rules:
   # Kyrgyzstan domains and IPs directly.
   - DOMAIN-SUFFIX,kg,DIRECT
   - GEOIP,KG,DIRECT
-
-  # Pandora Radio through US proxy nodes.
-  - DOMAIN-SUFFIX,pandora.com,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
-  - DOMAIN-SUFFIX,siriusxm.com,Pandora route
-  - DOMAIN-SUFFIX,savagebeast.com,Pandora route
-  - DOMAIN-SUFFIX,urbanairship.com,Pandora route
 
   # Check automatically selected US exit node.
   - DOMAIN-SUFFIX,ifconfig.net,Pandora route
