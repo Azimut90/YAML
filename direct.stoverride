@@ -13,15 +13,11 @@ dns:
 
 proxy-groups:
   - name: US nodes
-    type: url-test
-    include-all: true
-    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
-
-  - name: Pandora route
     type: select
     proxies:
-      - US nodes
-      - → Remnawave
+      - "→ Remnawave"
+    include-all: true
+    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
 
 rule-providers:
   hagezi-pro-mini:
@@ -36,12 +32,12 @@ rules:
   - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
   # Pandora and related services.
-  - DOMAIN-SUFFIX,pandora.com,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
-  - DOMAIN-SUFFIX,siriusxm.com,Pandora route
-  - DOMAIN-SUFFIX,savagebeast.com,Pandora route
-  - DOMAIN-SUFFIX,urbanairship.com,Pandora route
+  - DOMAIN-SUFFIX,pandora.com,US nodes
+  - DOMAIN-SUFFIX,p-cdn.us,US nodes
+  - DOMAIN-SUFFIX,p-cdn.com,US nodes
+  - DOMAIN-SUFFIX,siriusxm.com,US nodes
+  - DOMAIN-SUFFIX,savagebeast.com,US nodes
+  - DOMAIN-SUFFIX,urbanairship.com,US nodes
 
   # Apple services directly.
   - GEOSITE,apple,DIRECT
@@ -59,4 +55,4 @@ rules:
   - GEOIP,KG,DIRECT
 
   # Check automatically selected US exit node.
-  - DOMAIN-SUFFIX,ifconfig.net,Pandora route
+  - DOMAIN-SUFFIX,ifconfig.net,US nodes
