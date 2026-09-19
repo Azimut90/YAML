@@ -32,7 +32,7 @@ rule-providers:
     interval: 86400
 
 rules:
-  # Pandora Radio through US proxy nodes.
+  # Pandora and related services.
   - DOMAIN-SUFFIX,pandora.com,Pandora route
   - DOMAIN-SUFFIX,p-cdn.us,Pandora route
   - DOMAIN-SUFFIX,p-cdn.com,Pandora route
