@@ -32,16 +32,16 @@ rule-providers:
     interval: 86400
 
 rules:
-  # Pandora and related services.
+# Ads, trackers, telemetry, metrics, and common threats.
+- RULE-SET,hagezi-pro-mini,REJECT,no-track
+
+# Pandora and related services.
   - DOMAIN-SUFFIX,pandora.com,Pandora route
   - DOMAIN-SUFFIX,p-cdn.us,Pandora route
   - DOMAIN-SUFFIX,p-cdn.com,Pandora route
   - DOMAIN-SUFFIX,siriusxm.com,Pandora route
   - DOMAIN-SUFFIX,savagebeast.com,Pandora route
   - DOMAIN-SUFFIX,urbanairship.com,Pandora route
-
-  # Ads, trackers, telemetry, metrics, and common threats.
-  - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
   # Apple services directly.
   - GEOSITE,apple,DIRECT
