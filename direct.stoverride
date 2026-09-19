@@ -12,12 +12,19 @@ dns:
     - https://dns.adguard-dns.com/dns-query
 
 proxy-groups:
+  # US nodes discovered automatically.
   - name: US nodes
+    type: url-test
+    include-all: true
+    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
+    lazy: true
+
+  # Manual choice of Pandora routing mode.
+  - name: Pandora route
     type: select
     proxies:
       - → Remnawave
-    include-all: true
-    filter: '(?i)(^→ Remnawave$|🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
+      - US nodes
 
 rule-providers:
   hagezi-pro-mini:
