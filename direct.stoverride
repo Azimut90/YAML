@@ -54,6 +54,7 @@ rules:
   - GEOIP,RU,DIRECT
 
   # Belarus domains and IPs directly.
+  - DOMAIN-SUFFIX,xn--90ais,DIRECT  # .бел
   - DOMAIN-SUFFIX,by,DIRECT
   - GEOIP,BY,DIRECT
 
