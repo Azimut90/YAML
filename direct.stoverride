@@ -32,6 +32,11 @@ rule-providers:
     interval: 86400
 
 rules:
+  # Pandora auxiliary Airship services.
+  - DOMAIN,combine.urbanairship.com,Pandora route
+  - DOMAIN,device-api.urbanairship.com,Pandora route
+  - DOMAIN,remote-data.urbanairship.com,Pandora route
+
   # Ads, trackers, telemetry, metrics, and common threats.
   - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
