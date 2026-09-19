@@ -23,9 +23,17 @@ proxy-groups:
       - US nodes
       - → Remnawave
 
+rule-providers:
+  hagezi-pro-mini:
+    behavior: domain
+    format: text
+    url: https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/pro.mini.txt
+    path: ./rules/hagezi-pro-mini.txt
+    interval: 86400
+
 rules:
-  # Ads and common tracking domains.
-  - GEOSITE,category-ads-all,REJECT,no-track
+  # Ads, trackers, telemetry, metrics, and common threats.
+  - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
   # Apple services directly.
   - GEOSITE,apple,DIRECT
