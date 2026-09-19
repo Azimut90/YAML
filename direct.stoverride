@@ -15,7 +15,7 @@ proxy-groups:
   - name: US nodes
     type: select
     proxies:
-      - "→ Remnawave"
+      - → Remnawave
     include-all: true
     filter: '(?i)(^→ Remnawave$|🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
 
