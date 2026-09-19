@@ -17,7 +17,7 @@ proxy-groups:
     proxies:
       - "→ Remnawave"
     include-all: true
-    filter: '(?i)(Remnawave|🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
+    filter: '(?i)(^→ Remnawave$|🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
 
 rule-providers:
   hagezi-pro-mini:
