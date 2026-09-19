@@ -32,8 +32,8 @@ rule-providers:
     interval: 86400
 
 rules:
-# Ads, trackers, telemetry, metrics, and common threats.
-- RULE-SET,hagezi-pro-mini,REJECT,no-track
+  # Ads, trackers, telemetry, metrics, and common threats.
+  - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
 # Pandora and related services.
   - DOMAIN-SUFFIX,pandora.com,Pandora route
