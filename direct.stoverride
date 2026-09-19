@@ -38,14 +38,6 @@ rules:
   # Ads, trackers, telemetry, metrics, and common threats.
   - RULE-SET,hagezi-pro-mini,REJECT,no-track
 
-  # Pandora and related services.
-  - DOMAIN-SUFFIX,pandora.com,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
-  - DOMAIN-SUFFIX,siriusxm.com,Pandora route
-  - DOMAIN-SUFFIX,savagebeast.com,Pandora route
-  - DOMAIN-SUFFIX,urbanairship.com,Pandora route
-
   # Apple services directly.
   - GEOSITE,apple,DIRECT
 
@@ -61,6 +53,11 @@ rules:
   # Kyrgyzstan domains and IPs directly.
   - DOMAIN-SUFFIX,kg,DIRECT
   - GEOIP,KG,DIRECT
+
+  # Pandora and related services.
+  - DOMAIN-SUFFIX,pandora.com,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
 
   # Check selected Pandora exit node.
   - DOMAIN-SUFFIX,ifconfig.net,Pandora route
