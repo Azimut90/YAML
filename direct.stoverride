@@ -1,5 +1,5 @@
-name: Overriding Routing Rules
-desc: Apple/RU/BY/KG direct, Pandora via US nodes, AdGuard DoH
+name: Routing & Privacy Overrides
+desc: Direct routes for trusted regions, Pandora routing, AdGuard DoH, and privacy filtering
 
 mode: rule
 
