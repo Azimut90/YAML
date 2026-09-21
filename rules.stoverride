@@ -14,14 +14,15 @@ dns:
 proxy-groups:
   # US nodes discovered automatically.
   - name: US nodes
-    type: url-test
+    type: select  # if you use "url-test", use "lazy: true" too.
     include-all: true
     filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
-    lazy: true
+    interval: -1
 
   # Manual choice of Pandora routing mode.
   - name: Pandora route
     type: select
+    interval: -1
     proxies:
       - "→ Remnawave"
       - US nodes
