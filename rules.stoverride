@@ -30,7 +30,6 @@ proxy-groups: #!replace
   - name: Manual nodes
     type: select
     include-all: true
-    filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
     interval: -1
 
   - name: US nodes
