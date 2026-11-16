@@ -1,5 +1,5 @@
 name: Routing & Privacy Overrides
-desc: Apple/RU/BY/KG direct, Pandora via selected route, AdGuard DoH, ads/trackers filtering
+desc: Apple/RU/BY/KG direct, Pandora via US, AdGuard DoH, HaGeZi filtering
 
 mode: rule
 
@@ -11,21 +11,35 @@ dns:
   nameserver: #!replace
     - https://dns.adguard-dns.com/dns-query
 
-proxy-groups:
-  # US nodes discovered automatically.
-  - name: US nodes
-    type: select  # if you use "url-test", use "lazy: true" too.
-    include-all: true
-    filter: '(?i)(🇺🇸|\bUS\b|\bUSA\b|United States|America|США|Америка|Los Angeles|New York|Chicago|Dallas|Miami|Seattle|San Jose|Ashburn|Phoenix|Atlanta|Denver|Virginia)'
-    interval: -1
-
-  # Manual choice of Pandora routing mode.
-  - name: Pandora route
+proxy-groups: #!replace
+  - name: "→ Remnawave"
     type: select
     interval: -1
     proxies:
-      - "→ Remnawave"
-      - US nodes
+      - Automatic nodes
+      - Manual nodes
+
+  - name: Automatic nodes
+    type: url-test
+    include-all: true
+    filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
+    interval: 120
+    tolerance: 100
+    lazy: true
+
+  - name: Manual nodes
+    type: select
+    include-all: true
+    filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
+    interval: -1
+
+  - name: US nodes
+    type: url-test
+    include-all: true
+    filter: '🇺🇸'
+    interval: 120
+    tolerance: 100
+    lazy: true 
 
 rule-providers:
   hagezi-pro-plus-mini:
@@ -39,26 +53,24 @@ rules:
   # Ads, trackers, telemetry, metrics, and common threats.
   - RULE-SET,hagezi-pro-plus-mini,REJECT,no-track
 
+  # Pandora and its exit-IP check take priority over broad GEOIP rules.
+  - DOMAIN-SUFFIX,pandora.com,US nodes
+  - DOMAIN-SUFFIX,p-cdn.us,US nodes
+  - DOMAIN-SUFFIX,p-cdn.com,US nodes
+  - DOMAIN-SUFFIX,ifconfig.net,US nodes
+
   # Apple services directly.
   - GEOSITE,apple,DIRECT
 
-  # Russian domains/services/IPs directly.
+  # Russian domains and services and IP destinations directly.
   - GEOSITE,category-ru,DIRECT
   - GEOIP,RU,DIRECT
 
-  # Belarus domains and IPs directly.
+  # Belarus domains and IP destinations directly.
   - DOMAIN-SUFFIX,xn--90ais,DIRECT  # .бел
   - DOMAIN-SUFFIX,by,DIRECT
   - GEOIP,BY,DIRECT
 
-  # Kyrgyzstan domains and IPs directly.
+  # Kyrgyzstan domains and IP destinations directly.
   - DOMAIN-SUFFIX,kg,DIRECT
   - GEOIP,KG,DIRECT
-
-  # Pandora and related services.
-  - DOMAIN-SUFFIX,pandora.com,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
-
-  # Check selected Pandora exit node.
-  - DOMAIN-SUFFIX,ifconfig.net,Pandora route
