@@ -47,7 +47,7 @@ proxy-groups: #!replace
     hidden: true
     proxies:
       - RU transit
-      - Manual nodes
+      - US nodes
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
     interval: -1
