@@ -34,7 +34,7 @@ proxy-groups: #!replace
     include-all: true
     interval: -1
 
-  # Shared first hop for both relay groups. Choose a working RU proxy.
+  # Choose a working RU proxy.
   - name: RU transit
     type: select
     include-all: true
@@ -60,25 +60,13 @@ proxy-groups: #!replace
     interval: 120
     lazy: true 
 
-  # Backup path to the same selected US proxy, through the shared RU hop.
-  - name: Pandora via RU
-    type: relay
-    hidden: true
-    proxies:
-      - RU transit
-      - US nodes
-    benchmark-url: http://www.apple.com
-    benchmark-timeout: 10
-    interval: 120
-    lazy: true
-
   # Prefer a direct connection TO the US proxy, then try the RU relay.
   # Empty filtered groups are treated as DIRECT by Stash; keep them nonempty.
   - name: Pandora route
     type: fallback
     proxies:
       - US nodes
-      - Pandora via RU
+      - Via RU
     interval: 120
     lazy: true
 
