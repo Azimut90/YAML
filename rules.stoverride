@@ -1,5 +1,5 @@
 name: Routing & Privacy Overrides
-desc: Apple/RU/BY/KG direct, Pandora via US, AdGuard DoH, HaGeZi filtering
+desc: Apple/RU/BY/KG direct, auto/manual/transit, Pandora via US with fallback, AdGuard DoH, HaGeZi filtering
 
 mode: rule
 
@@ -18,6 +18,7 @@ proxy-groups: #!replace
     proxies:
       - Automatic nodes
       - Manual nodes
+      - Via RU
 
   - name: Automatic nodes
     type: url-test
@@ -27,18 +28,66 @@ proxy-groups: #!replace
     tolerance: 100
     lazy: true
 
+  # Full subscription list, including service entries.
   - name: Manual nodes
     type: select
     include-all: true
     interval: -1
 
+  # Shared first hop for both relay groups. Choose a working RU proxy.
+  - name: RU transit
+    type: select
+    include-all: true
+    filter: '^(?!.*(🚀|❗)).*🇷🇺.*$'
+    interval: -1
+
+  # Exit used only by Via RU; independent of the Pandora US exit.
+  - name: Foreign exit
+    type: select
+    include-all: true
+    filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
+    interval: -1
+
+  # General traffic: iPhone -> selected RU proxy -> selected foreign proxy.
+  - name: Via RU
+    type: relay
+    proxies:
+      - RU transit
+      - Foreign exit
+    benchmark-url: http://www.apple.com
+    benchmark-timeout: 10
+    interval: -1
+
+  # Manual US exit selection; keep direct-path health checks for fallback.
   - name: US nodes
     type: url-test
     include-all: true
-    filter: '🇺🇸'
+    filter: '^(?!.*(🚀|❗)).*🇺🇸.*$'
     interval: 120
     tolerance: 100
     lazy: true 
+
+  # Backup path to the same selected US proxy, through the shared RU hop.
+  - name: Pandora via chain RU-US
+    type: relay
+    hidden: true
+    proxies:
+      - RU transit
+      - US nodes
+    benchmark-url: http://www.apple.com
+    benchmark-timeout: 10
+    interval: 120
+    lazy: true
+
+  # Prefer a direct connection TO the US proxy, then try the RU relay.
+  # Empty filtered groups are treated as DIRECT by Stash; keep them nonempty.
+  - name: Pandora route
+    type: fallback
+    proxies:
+      - US nodes
+      - Pandora via chain RU-US
+    interval: 120
+    lazy: true
 
 rule-providers:
   hagezi-pro-plus-mini:
@@ -53,10 +102,10 @@ rules:
   - RULE-SET,hagezi-pro-plus-mini,REJECT,no-track
 
   # Pandora and its exit-IP check take priority over broad GEOIP rules.
-  - DOMAIN-SUFFIX,pandora.com,US nodes
-  - DOMAIN-SUFFIX,p-cdn.us,US nodes
-  - DOMAIN-SUFFIX,p-cdn.com,US nodes
-  - DOMAIN-SUFFIX,ifconfig.net,US nodes
+  - DOMAIN-SUFFIX,pandora.com,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
+  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
+  - DOMAIN-SUFFIX,ifconfig.net,Pandora route
 
   # Apple services directly.
   - GEOSITE,apple,DIRECT
