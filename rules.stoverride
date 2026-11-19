@@ -41,19 +41,13 @@ proxy-groups: #!replace
     filter: '^(?!.*(🚀|❗)).*🇷🇺.*$'
     interval: -1
 
-  # Exit used only by Via RU; independent of the Pandora US exit.
-  - name: Foreign exit
-    type: select
-    include-all: true
-    filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
-    interval: -1
-
   # General traffic: iPhone -> selected RU proxy -> selected foreign proxy.
   - name: Via RU
     type: relay
+    hidden: true
     proxies:
       - RU transit
-      - Foreign exit
+      - Manual nodes
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
     interval: -1
