@@ -60,15 +60,14 @@ proxy-groups: #!replace
 
   # Manual US exit selection; keep direct-path health checks for fallback.
   - name: US nodes
-    type: url-test
+    type: select
     include-all: true
     filter: '^(?!.*(🚀|❗)).*🇺🇸.*$'
     interval: 120
-    tolerance: 100
     lazy: true 
 
   # Backup path to the same selected US proxy, through the shared RU hop.
-  - name: Pandora via chain RU-US
+  - name: Pandora via RU
     type: relay
     hidden: true
     proxies:
@@ -85,7 +84,7 @@ proxy-groups: #!replace
     type: fallback
     proxies:
       - US nodes
-      - Pandora via chain RU-US
+      - Pandora via RU
     interval: 120
     lazy: true
 
