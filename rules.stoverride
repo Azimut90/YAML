@@ -1,5 +1,5 @@
 name: Routing & Privacy Overrides
-desc: Apple/RU/BY/KG direct, auto/manual/transit, Pandora via US with fallback, AdGuard DoH, HaGeZi filtering
+desc: Apple/RU/BY/KG direct, auto/manual/RU-US, Pandora via US with fallback, AdGuard DoH, HaGeZi filtering
 
 mode: rule
 
@@ -41,7 +41,7 @@ proxy-groups: #!replace
     filter: '^(?!.*(🚀|❗)).*🇷🇺.*$'
     interval: -1
 
-  # General traffic: iPhone -> selected RU proxy -> selected foreign proxy.
+  # Shared RU -> US chain for the third mode and Pandora fallback.
   - name: Via RU
     type: relay
     hidden: true
@@ -50,7 +50,8 @@ proxy-groups: #!replace
       - US nodes
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
-    interval: -1
+    interval: 120
+    lazy: true
 
   # Manual US exit selection; keep direct-path health checks for fallback.
   - name: US nodes
