@@ -11,6 +11,10 @@ dns:
   nameserver: #!replace
     - https://dns.adguard-dns.com/dns-query
 
+proxies:
+  - name: "❗ Block"
+    type: reject
+
 proxy-groups: #!replace
   - name: "→ Remnawave"
     type: select
