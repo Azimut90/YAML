@@ -34,13 +34,6 @@ proxy-groups: #!replace
     include-all: true
     interval: -1
 
-  # Choose a working RU proxy.
-  - name: RU transit
-    type: select
-    include-all: true
-    filter: '^(?!.*(🚀|❗)).*🇷🇺.*$'
-    interval: -1
-
   # Shared selected-transit -> US chain for the third mode and Pandora fallback.
   - name: US via Transit
     type: relay
