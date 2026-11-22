@@ -11,10 +11,6 @@ dns:
   nameserver: #!replace
     - https://dns.adguard-dns.com/dns-query
 
-proxies:
-  - name: "❗ Block"
-    type: reject
-
 proxy-groups: #!replace
   - name: "→ Remnawave"
     type: select
@@ -38,30 +34,67 @@ proxy-groups: #!replace
     include-all: true
     interval: -1
 
-  # Prefer RU transit; exclude provider service entries.
-  # REJECT keeps an empty filtered group from turning into DIRECT.
+  # Automatically select an RU transit node; exclude US and service entries.
+  # An empty transit group means a direct attempt to the US proxy.
+  # Availability is checked on the complete relay chains below.
   - name: RU Transit
     type: url-test
     # hidden: true
     include-all: true
-    filter: '^(?:❗ Block|(?!.*(🇺🇸|🚀|❗)).*🇷🇺.*)$'
+    filter: '^(?!.*(🇺🇸|🚀|❗)).*🇷🇺.*$'
     interval: 120
     tolerance: 100
     lazy: true
 
-  # Shared selected-transit -> US chain for the third mode and Pandora fallback.
-  - name: US via Transit
+  # Same eligible pool as Auto Select, with US additionally excluded.
+  # A separate group prevents a US exit from becoming its own transit node.
+  - name: Auto Transit
+    type: url-test
+    # hidden: true
+    include-all: true
+    filter: '^(?!.*(🇷🇺|🇺🇦|🇺🇸|🚀|❗)).+$'
+    interval: 120
+    tolerance: 100
+    lazy: true
+
+  # Test the complete RU -> US path independently of direct node tests.
+  - name: US via RU
     type: relay
     hidden: true
     proxies:
-      - Manual Select
+      - RU Transit
       - US Exit
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
     interval: 120
     lazy: true
 
-  # Manual US exit selection; keep direct-path health checks for fallback.
+  # Complete backup path through a non-RU/non-UA/non-US transit node.
+  - name: US via Auto
+    type: relay
+    hidden: true
+    proxies:
+      - Auto Transit
+      - US Exit
+    benchmark-url: http://www.apple.com
+    benchmark-timeout: 10
+    interval: 120
+    lazy: true
+
+  # Prefer the working RU -> US chain, then the working Auto -> US chain.
+  # Compare complete chains, including connectivity to the US exit.
+  - name: US via Transit
+    type: fallback
+    hidden: true
+    proxies:
+      - US via RU
+      - US via Auto
+    interval: 120
+    lazy: true
+
+  # Manually select a real US exit; retain direct-path health checks.
+  # At least one US node must remain in the subscription.
+  # If this group becomes empty, Stash treats it as DIRECT: no US exit.
   - name: US Exit
     type: select
     include-all: true
@@ -69,8 +102,7 @@ proxy-groups: #!replace
     interval: 120
     lazy: true 
 
-  # Prefer a direct connection TO the US proxy, then try the selected transit.
-  # Empty filtered groups are treated as DIRECT by Stash; keep them nonempty.
+  # Prefer a direct connection TO the US proxy, then RU -> US, then Auto -> US.
   - name: US with Fallback
     type: fallback
     proxies:
