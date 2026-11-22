@@ -28,41 +28,30 @@ proxy-groups: #!replace
     tolerance: 100
     lazy: true
 
-  # Full subscription list, including service entries.
+  # Full subscription list; the chosen node is also the preferred US transit.
+  # When using US via Transit, select a non-US node here to avoid loops.
   - name: Manual Select
     type: select
     include-all: true
     interval: -1
 
-  # Automatically select an RU transit node; exclude US and service entries.
-  # An empty transit group means a direct attempt to the US proxy.
-  # Availability is checked on the complete relay chains below.
-  - name: RU Transit
-    type: url-test
-    # hidden: true
-    include-all: true
-    filter: '^(?!.*(🇺🇸|🚀|❗)).*🇷🇺.*$'
-    interval: 120
-    tolerance: 100
-    lazy: true
-
   # Same eligible pool as Auto Select, with US additionally excluded.
   # A separate group prevents a US exit from becoming its own transit node.
   - name: Auto Transit
     type: url-test
-    # hidden: true
+    hidden: true
     include-all: true
     filter: '^(?!.*(🇷🇺|🇺🇦|🇺🇸|🚀|❗)).+$'
     interval: 120
     tolerance: 100
     lazy: true
 
-  # Test the complete RU -> US path independently of direct node tests.
-  - name: US via RU
+  # Test the selected manual transit -> US path independently of node tests.
+  - name: US via Manual
     type: relay
     hidden: true
     proxies:
-      - RU Transit
+      - Manual Select
       - US Exit
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
@@ -81,13 +70,13 @@ proxy-groups: #!replace
     interval: 120
     lazy: true
 
-  # Prefer the working RU -> US chain, then the working Auto -> US chain.
+  # Prefer the working Manual -> US chain, then the working Auto -> US chain.
   # Compare complete chains, including connectivity to the US exit.
   - name: US via Transit
     type: fallback
     hidden: true
     proxies:
-      - US via RU
+      - US via Manual
       - US via Auto
     interval: 120
     lazy: true
@@ -102,7 +91,7 @@ proxy-groups: #!replace
     interval: 120
     lazy: true 
 
-  # Prefer a direct connection TO the US proxy, then RU -> US, then Auto -> US.
+  # Prefer a direct connection TO the US proxy, then Manual -> US, then Auto -> US.
   - name: US with Fallback
     type: fallback
     proxies:
