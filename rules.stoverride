@@ -34,6 +34,19 @@ proxy-groups: #!replace
     include-all: true
     interval: -1
 
+  # Prefer RU transit; exclude provider service entries.
+  # REJECT keeps an empty filtered group from turning into DIRECT.
+  - name: RU Transit
+    type: url-test
+    # hidden: true
+    include-all: true
+    proxies:
+      - REJECT
+    filter: '^(?:REJECT|(?!.*(🇺🇸|🚀|❗)).*🇷🇺.*)$'
+    interval: 120
+    tolerance: 100
+    lazy: true
+
   # Shared selected-transit -> US chain for the third mode and Pandora fallback.
   - name: US via Transit
     type: relay
