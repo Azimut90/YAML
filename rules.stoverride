@@ -39,7 +39,7 @@ proxy-groups: #!replace
   - name: RU Transit
     type: url-test
     # hidden: true
-    include-all: true
+    # include-all: true
     proxies:
       - REJECT
     filter: '^(?:REJECT|(?!.*(🇺🇸|🚀|❗)).*🇷🇺.*)$'
