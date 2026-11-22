@@ -89,7 +89,7 @@ proxy-groups: #!replace
     include-all: true
     filter: '^(?!.*(🚀|❗)).*🇺🇸.*$'
     interval: 120
-    lazy: true 
+    lazy: true
 
   # Prefer a direct connection TO the US proxy, then Manual -> US, then Auto -> US.
   - name: US with Fallback
