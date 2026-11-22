@@ -1,5 +1,5 @@
 name: Routing & Privacy Overrides
-desc: Apple/RU/BY/KG direct, auto/manual/RU-US, Pandora via US with fallback, AdGuard DoH, HaGeZi filtering
+desc: Apple/RU/BY/KG direct, auto/manual/transit, Pandora via US with fallback, AdGuard DoH, HaGeZi filtering
 
 mode: rule
 
@@ -16,11 +16,11 @@ proxy-groups: #!replace
     type: select
     interval: -1
     proxies:
-      - Automatic nodes
-      - Manual nodes
-      - Via RU
+      - Auto Select
+      - Manual Select
+      - US via Transit
 
-  - name: Automatic nodes
+  - name: Auto Select
     type: url-test
     include-all: true
     filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
@@ -29,7 +29,7 @@ proxy-groups: #!replace
     lazy: true
 
   # Full subscription list, including service entries.
-  - name: Manual nodes
+  - name: Manual Select
     type: select
     include-all: true
     interval: -1
@@ -41,12 +41,12 @@ proxy-groups: #!replace
     filter: '^(?!.*(🚀|❗)).*🇷🇺.*$'
     interval: -1
 
-  # Shared RU -> US chain for the third mode and Pandora fallback.
-  - name: Via RU
+  # Shared selected-transit -> US chain for the third mode and Pandora fallback.
+  - name: US via Transit
     type: relay
     hidden: true
     proxies:
-      - RU transit
+      - Manual Select
       - US nodes
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
@@ -54,20 +54,20 @@ proxy-groups: #!replace
     lazy: true
 
   # Manual US exit selection; keep direct-path health checks for fallback.
-  - name: US nodes
+  - name: US Exit
     type: select
     include-all: true
     filter: '^(?!.*(🚀|❗)).*🇺🇸.*$'
     interval: 120
     lazy: true 
 
-  # Prefer a direct connection TO the US proxy, then try the RU relay.
+  # Prefer a direct connection TO the US proxy, then try the selected transit.
   # Empty filtered groups are treated as DIRECT by Stash; keep them nonempty.
-  - name: Pandora route
+  - name: US with Fallback
     type: fallback
     proxies:
-      - US nodes
-      - Via RU
+      - US Exit
+      - US via Transit
     interval: 120
     lazy: true
 
@@ -84,10 +84,10 @@ rules:
   - RULE-SET,hagezi-pro-plus-mini,REJECT,no-track
 
   # Pandora and its exit-IP check take priority over broad GEOIP rules.
-  - DOMAIN-SUFFIX,pandora.com,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.us,Pandora route
-  - DOMAIN-SUFFIX,p-cdn.com,Pandora route
-  - DOMAIN-SUFFIX,ifconfig.net,Pandora route
+  - DOMAIN-SUFFIX,pandora.com,US with Fallback
+  - DOMAIN-SUFFIX,p-cdn.us,US with Fallback
+  - DOMAIN-SUFFIX,p-cdn.com,US with Fallback
+  - DOMAIN-SUFFIX,ifconfig.net,US with Fallback
 
   # Apple services directly.
   - GEOSITE,apple,DIRECT
