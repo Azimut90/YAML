@@ -12,13 +12,28 @@ dns:
     - https://dns.adguard-dns.com/dns-query
 
 proxy-groups: #!replace
-  - name: "→ Remnawave"
+  - name: Main Route
     type: select
     interval: -1
     proxies:
       - Auto Select
       - Manual Select
       - US via Transit
+
+  # Preserve the policy names referenced by the providers' original rules.
+  - name: "→ Remnawave"
+    type: select
+    hidden: true
+    interval: -1
+    proxies:
+      - Main Route
+
+  - name: BlancVPN
+    type: select
+    hidden: true
+    interval: -1
+    proxies:
+      - Main Route
 
   - name: Auto Select
     type: url-test
