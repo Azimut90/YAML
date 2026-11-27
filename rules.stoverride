@@ -49,8 +49,7 @@ proxy-groups: #!replace
     include-all: true
     interval: -1
 
-  # Same eligible pool as Auto Select, with US additionally excluded.
-  # A separate group prevents a US exit from becoming its own transit node.
+  # Belarus is eligible as a first hop. US exits are excluded from this pool.
   - name: Auto Transit
     type: url-test
     hidden: true
