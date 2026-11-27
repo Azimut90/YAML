@@ -38,13 +38,12 @@ proxy-groups: #!replace
   - name: Auto Select
     type: url-test
     include-all: true
-    filter: '^(?!.*(🇷🇺|🇺🇦|🚀|❗)).+$'
-    interval: 120
+    filter: '^(?!.*(🇷🇺|🇧🇾|🇺🇦|🚀|❗)).+$'
+    interval: 300
     tolerance: 100
     lazy: true
 
-  # Full subscription list; the chosen node is also the preferred US transit.
-  # When using US via Transit, select a non-US node here to avoid loops.
+  # All subscription nodes are available for manual selection.
   - name: Manual Select
     type: select
     include-all: true
@@ -57,24 +56,11 @@ proxy-groups: #!replace
     hidden: true
     include-all: true
     filter: '^(?!.*(🇷🇺|🇺🇦|🇺🇸|🚀|❗)).+$'
-    interval: 120
+    interval: 150
     tolerance: 100
     lazy: true
 
-  # Test the selected manual transit -> US path independently of node tests.
-  - name: US via Manual
-    type: relay
-    hidden: true
-    proxies:
-      - Manual Select
-      - US Exit
-    benchmark-url: http://www.apple.com
-    benchmark-timeout: 10
-    interval: 120
-    lazy: true
-
-  # Complete backup path through a non-RU/non-UA/non-US transit node.
-  - name: US via Auto
+  - name: US via Transit
     type: relay
     hidden: true
     proxies:
@@ -82,18 +68,7 @@ proxy-groups: #!replace
       - US Exit
     benchmark-url: http://www.apple.com
     benchmark-timeout: 10
-    interval: 120
-    lazy: true
-
-  # Prefer the working Manual -> US chain, then the working Auto -> US chain.
-  # Compare complete chains, including connectivity to the US exit.
-  - name: US via Transit
-    type: fallback
-    hidden: true
-    proxies:
-      - US via Manual
-      - US via Auto
-    interval: 120
+    interval: 150
     lazy: true
 
   # Manually select a real US exit; retain direct-path health checks.
@@ -103,16 +78,16 @@ proxy-groups: #!replace
     type: select
     include-all: true
     filter: '^(?!.*(🚀|❗)).*🇺🇸.*$'
-    interval: 120
+    interval: 150
     lazy: true
 
-  # Prefer a direct connection TO the US proxy, then Manual -> US, then Auto -> US.
+  # Reach the chosen US exit directly when possible, then try automatic transit.
   - name: US with Fallback
     type: fallback
     proxies:
       - US Exit
       - US via Transit
-    interval: 120
+    interval: 150
     lazy: true
 
 rule-providers:
